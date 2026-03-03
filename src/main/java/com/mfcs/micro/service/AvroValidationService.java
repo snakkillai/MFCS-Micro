@@ -2,9 +2,6 @@ package com.mfcs.micro.service;
 
 import com.mfcs.micro.exception.AvroValidationException;
 import com.mfcs.micro.model.ItemCreationEvent;
-import org.apache.avro.Schema;
-import org.apache.avro.generic.GenericRecord;
-import org.apache.avro.specific.SpecificRecordBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -45,27 +42,6 @@ public class AvroValidationService {
         validateRequiredString(record.getCreatedBy(), "createdBy");
 
         log.debug("Avro validation passed for eventId={}, itemId={}", record.getEventId(), record.getItemId());
-    }
-
-    /**
-     * Validates that a string field in an Avro GenericRecord is present and non-empty.
-     *
-     * @param record    the generic Avro record
-     * @param fieldName the field to validate
-     * @throws AvroValidationException if the field is missing or blank
-     */
-    public void validateField(GenericRecord record, String fieldName) {
-        if (record == null) {
-            throw new AvroValidationException("Avro record must not be null");
-        }
-        Schema.Field field = record.getSchema().getField(fieldName);
-        if (field == null) {
-            throw new AvroValidationException("Field '" + fieldName + "' not found in schema");
-        }
-        Object value = record.get(fieldName);
-        if (value == null || value.toString().isBlank()) {
-            throw new AvroValidationException("Required field '" + fieldName + "' is missing or blank");
-        }
     }
 
     private void validateRequiredString(Object value, String fieldName) {
