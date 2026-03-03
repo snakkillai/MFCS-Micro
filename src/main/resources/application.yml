@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: mfcs-micro
+
+  # Kafka Configuration
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: mfcs-item-creation-group
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+
+  # OAuth2 Client Configuration for MFCS API
+  security:
+    oauth2:
+      client:
+        registration:
+          mfcs-api:
+            client-id: ${MFCS_OAUTH2_CLIENT_ID:mfcs-client}
+            client-secret: ${MFCS_OAUTH2_CLIENT_SECRET:mfcs-secret}
+            authorization-grant-type: client_credentials
+            scope: ${MFCS_OAUTH2_SCOPE:api.read api.write}
+        provider:
+          mfcs-api:
+            token-uri: ${MFCS_OAUTH2_TOKEN_URI:https://auth.example.com/oauth2/token}
+
+# Kafka Topics
+kafka:
+  topics:
+    item-creation: ${KAFKA_TOPIC_ITEM_CREATION:item-creation-topic}
+
+# MFCS Oracle API Configuration
+mfcs:
+  api:
+    base-url: ${MFCS_API_BASE_URL:https://mfcs.example.com/api/v1}
+    item-endpoint: /items
+    timeout-seconds: ${MFCS_API_TIMEOUT:30}
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Logging
+logging:
+  level:
+    com.mfcs.micro: INFO
+    org.springframework.kafka: INFO
+    org.springframework.security: INFO
