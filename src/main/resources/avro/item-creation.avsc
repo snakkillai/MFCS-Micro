@@ -1,0 +1,72 @@
+{
+  "type": "record",
+  "name": "ItemCreationEvent",
+  "namespace": "com.mfcs.micro.model",
+  "doc": "Avro schema for Item Creation event consumed from Kafka",
+  "fields": [
+    {
+      "name": "eventId",
+      "type": "string",
+      "doc": "Unique identifier for the event"
+    },
+    {
+      "name": "itemId",
+      "type": "string",
+      "doc": "Unique identifier for the item"
+    },
+    {
+      "name": "itemCode",
+      "type": "string",
+      "doc": "Item code used in Oracle MFCS"
+    },
+    {
+      "name": "itemName",
+      "type": "string",
+      "doc": "Name of the item"
+    },
+    {
+      "name": "description",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Description of the item"
+    },
+    {
+      "name": "category",
+      "type": "string",
+      "doc": "Category of the item"
+    },
+    {
+      "name": "unitOfMeasure",
+      "type": "string",
+      "doc": "Unit of measure for the item"
+    },
+    {
+      "name": "status",
+      "type": {
+        "type": "enum",
+        "name": "ItemStatus",
+        "symbols": ["ACTIVE", "INACTIVE", "PENDING"]
+      },
+      "doc": "Status of the item"
+    },
+    {
+      "name": "createdBy",
+      "type": "string",
+      "doc": "User who created the item"
+    },
+    {
+      "name": "createdDate",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Creation timestamp in milliseconds since epoch"
+    },
+    {
+      "name": "sourceSystem",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Source system that originated the item creation"
+    }
+  ]
+}
